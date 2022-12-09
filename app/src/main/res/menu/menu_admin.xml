@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Productos"
+        android:id="@+id/productos"
+        android:icon="@drawable/ic_productos"/>
+    <item
+        android:title="Repartidores"
+        android:id="@+id/repartidores"
+        android:icon="@drawable/ic_baseline_group_24"/>
+    <item
+        android:title="Reportes"
+        android:id="@+id/reportes"
+        android:icon="@drawable/ic_reportes"/>
+</menu>
