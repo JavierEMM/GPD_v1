@@ -1,4 +1,4 @@
-package pe.edu.pucp.gdp.Login;
+package pe.edu.pucp.gdp.Cliente;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -21,31 +21,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.location.CurrentLocationRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import pe.edu.pucp.gdp.Entity.User;
+import pe.edu.pucp.gdp.Login.MapaActivity;
+import pe.edu.pucp.gdp.Login.RegisterActivity;
 import pe.edu.pucp.gdp.R;
 
-public class MapaActivity extends AppCompatActivity {
+public class ClienteEditarPerfilMapaActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient client;
     private SupportMapFragment mapFragment;
@@ -61,8 +58,9 @@ public class MapaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mapa);
-
+        setContentView(R.layout.activity_cliente_editar_perfil_mapa);
+        BottomNavigationView bottomNavigationView =  findViewById(R.id.bottonnav);
+        navbar(bottomNavigationView, ClienteEditarPerfilMapaActivity.this);
 
         ((Button) findViewById(R.id.btnAceptarDireccion)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +72,7 @@ public class MapaActivity extends AppCompatActivity {
                     user.setDireccion(selectedAddress);
                     user.setLatitude(String.valueOf(selectedLat));
                     user.setLongitude(String.valueOf(selectedLong));
-                    intent = new Intent(MapaActivity.this,RegisterActivity.class);
+                    intent = new Intent(ClienteEditarPerfilMapaActivity.this, ClienteEditarPerfilActivity.class);
                     intent.putExtra("user",user);
                     startActivity(intent);
                     finish();
@@ -95,12 +93,10 @@ public class MapaActivity extends AppCompatActivity {
                     }
                 }
         );
-
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        client = LocationServices.getFusedLocationProviderClient(MapaActivity.this);
+        client = LocationServices.getFusedLocationProviderClient(ClienteEditarPerfilMapaActivity.this);
         mostrarUbicacion();
     }
-
     public void mostrarUbicacion() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -114,9 +110,12 @@ public class MapaActivity extends AppCompatActivity {
                             @Override
                             public void onMapReady(@NonNull GoogleMap googleMap) {
                                 mMap = googleMap;
-                                LatLng latLng = new LatLng(-12.068451806069982, -77.078017870113);
-                                selectedLat = -12.068451806069982;
-                                selectedLong = -77.078017870113;
+                                Intent intent = getIntent();
+                                User user = (User) intent.getSerializableExtra("user");
+
+                                LatLng latLng = new LatLng(Double.parseDouble(user.getLatitude()), Double.parseDouble(user.getLongitude()));
+                                selectedLat = Double.parseDouble(user.getLatitude());
+                                selectedLong = Double.parseDouble(user.getLongitude());
                                 getAddress(selectedLat,selectedLong);
                                 mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                                     @Override
@@ -127,7 +126,7 @@ public class MapaActivity extends AppCompatActivity {
                                             selectedLong = latLng.longitude;
                                             getAddress(selectedLat,selectedLong);
                                         }else{
-                                            Toast.makeText(MapaActivity.this,"Corrobora tu conexion",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ClienteEditarPerfilMapaActivity.this,"Corrobora tu conexion",Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -148,7 +147,7 @@ public class MapaActivity extends AppCompatActivity {
         networkInfo = connectivityManager.getActiveNetworkInfo();
     }
     private void getAddress(double mLat,double mLong){
-        geocoder = new Geocoder(MapaActivity.this, Locale.getDefault());
+        geocoder = new Geocoder(ClienteEditarPerfilMapaActivity.this, Locale.getDefault());
         if(mLat != 0){
             try {
                 listAddress = geocoder.getFromLocation(mLat,mLong,1);
@@ -166,13 +165,37 @@ public class MapaActivity extends AppCompatActivity {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
                     mMap.addMarker(markerOptions).showInfoWindow();
                 }else{
-                    Toast.makeText(MapaActivity.this, "Algo salió mal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClienteEditarPerfilMapaActivity.this, "Algo salió mal", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(MapaActivity.this, "Algo salió mal", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ClienteEditarPerfilMapaActivity.this, "Algo salió mal", Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(MapaActivity.this, "Lat null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ClienteEditarPerfilMapaActivity.this, "Lat null", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void navbar(BottomNavigationView bottomNavigationView, Context context){
+        bottomNavigationView.setSelectedItemId(R.id.productos);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            Intent intent;
+            switch (item.getItemId()) {
+                case R.id.productos:
+                    intent =  new Intent(context, ClienteListaProductosActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case R.id.perfil:
+                    intent =  new Intent(context, ClientePerfilActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case R.id.carrito:
+                    intent =  new Intent(context, ClienteCarritoActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+            }
+            return true;
+        });
     }
 }

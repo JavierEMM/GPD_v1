@@ -18,7 +18,9 @@
                 android:id="@+id/imageProducto"
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="220dp"
             android:layout_height="wrap_content"
@@ -81,25 +83,19 @@
                 android:layout_marginBottom="10dp">
 
                 <Button
-                    android:id="@+id/btnEditar"
+                    android:id="@+id/btnCarrito"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:layout_marginRight="10dp"
                     android:backgroundTint="@color/gray"
-                    android:text="Editar"
-                    android:textAlignment="center" />
-
-                <Button
-                    android:id="@+id/btnBorrar"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/gray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Borrar"
+                    android:text="+Carrito"
                     android:textAlignment="center" />
             </LinearLayout>
         </LinearLayout>
+
+
+
     </LinearLayout>
+
 </LinearLayout>

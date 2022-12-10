@@ -10,6 +10,8 @@ public class User implements Serializable {
     private String numero;
     private String direccion;
     private String rol;
+    private String latitude;
+    private String longitude;
 
     public User(){
 
@@ -79,5 +81,21 @@ public class User implements Serializable {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

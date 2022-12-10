@@ -21,29 +21,73 @@
         android:theme="@style/Theme.GDP"
         tools:targetApi="31">
         <activity
+            android:name=".Cliente.ClienteHistorialActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Background">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Cliente.ClienteEditarPerfilMapaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Background">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Cliente.ClienteEditarPerfilActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Background">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Cliente.ClientePerfilActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Background">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Cliente.ClienteCarritoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Background">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Admin.AdminAgregarRepartidorActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Background">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Admin.AdminEditarRepartidorActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Background">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Admin.AdminEditarProductoActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Background">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Admin.AdminAgregarProductoActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Background">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

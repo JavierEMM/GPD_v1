@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Productos"
+        android:id="@+id/productos"
+        android:icon="@drawable/ic_productos"/>
+    <item
+        android:title="Perfil"
+        android:id="@+id/perfil"
+        android:icon="@drawable/ic_baseline_group_24"/>
+    <item
+        android:title="Carrito"
+        android:id="@+id/carrito"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"/>
+</menu>
