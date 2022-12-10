@@ -54,7 +54,7 @@ public class RepartidoresAdapter extends RecyclerView.Adapter<RepartidoresAdapte
         this.borrar = borrar;
     }
     public void setEditar(OnItemClickListener editar) {
-        this.borrar = editar;
+        this.editar = editar;
     }
 
     public class RepartidoresViewHolder extends RecyclerView.ViewHolder{

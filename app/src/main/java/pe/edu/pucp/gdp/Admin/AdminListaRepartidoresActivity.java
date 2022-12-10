@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -64,6 +67,47 @@ public class AdminListaRepartidoresActivity extends AppCompatActivity implements
 
         SearchView searchView = findViewById(R.id.searchTextUsuarios);
         searchView.setOnQueryTextListener(AdminListaRepartidoresActivity.this);
+
+        repartidoresAdapter.setEditar(new RepartidoresAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                Repartidor repartidor = repartidoresAdapter.getListaRepartidores().get(position);
+                Intent intent = new Intent(AdminListaRepartidoresActivity.this,AdminEditarRepartidorActivity.class);
+                intent.putExtra("repartidor",repartidor);
+                startActivity(intent);
+            }
+        });
+        repartidoresAdapter.setEditar(new RepartidoresAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                Repartidor repartidor = repartidoresAdapter.getListaRepartidores().get(position);
+                Intent intent = new Intent(AdminListaRepartidoresActivity.this,AdminEditarRepartidorActivity.class);
+                intent.putExtra("repartidor",repartidor);
+                startActivity(intent);
+            }
+        });
+        repartidoresAdapter.setBorrar(new RepartidoresAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                Repartidor repartidor = repartidoresAdapter.getListaRepartidores().get(position);
+                firebaseFirestore.collection("repartidores").document(repartidor.getDni()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(AdminListaRepartidoresActivity.this, "Eliminado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                repartidoresAdapter.getListaRepartidores().remove(position);
+                repartidoresAdapter.notifyItemRemoved(position);
+            }
+        });
+
+        ((Button) findViewById(R.id.btnAgregarRepartidor)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminListaRepartidoresActivity.this, AdminAgregarRepartidorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void navbar(BottomNavigationView bottomNavigationView, Context context){
