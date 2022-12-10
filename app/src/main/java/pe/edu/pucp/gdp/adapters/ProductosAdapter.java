@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -53,21 +54,21 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         this.borrar = borrar;
     }
     public void setEditar(OnItemClickListener editar) {
-        this.borrar = editar;
+        this.editar = editar;
     }
 
     public class ProductosViewHolder extends RecyclerView.ViewHolder{
         Productos productos;
         public ProductosViewHolder(@NonNull View itemView, OnItemClickListener editar, OnItemClickListener borrar){
             super(itemView);
-            Button btnEliminar = itemView.findViewById(R.id.btnEditar);
+            Button btnEliminar = itemView.findViewById(R.id.btnBorrar);
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     borrar.OnItemClick(getAdapterPosition());
                 }
             });
-            Button btnEditar = itemView.findViewById(R.id.btnBorrar);
+            Button btnEditar = itemView.findViewById(R.id.btnEditar);
             btnEditar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -101,7 +102,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         stockProducto.setText("Stock: "+productos.getStock());
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("productos/"+productos.getId()+"/photo.jpg");
-        Glide.with(context).load(storageReference).into(imageView);
+        Glide.with(context).load(storageReference).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
 
     }
 

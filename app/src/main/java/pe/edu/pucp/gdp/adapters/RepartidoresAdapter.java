@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -96,7 +97,7 @@ public class RepartidoresAdapter extends RecyclerView.Adapter<RepartidoresAdapte
         dniRepartidor.setText("DNI: "+repartidor.getDni());
         telefonoRepartidor.setText("Telefono: "+repartidor.getNumero());
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("repartidores/"+repartidor.getDni()+"/photo.jpg");
-        Glide.with(context).load(storageReference).into(imageView);
+        Glide.with(context).load(storageReference).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
     }
 
     @Override

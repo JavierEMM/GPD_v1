@@ -21,28 +21,28 @@
         android:theme="@style/Theme.GDP"
         tools:targetApi="31">
         <activity
-            android:name=".AdminAgregarRepartidorActivity"
+            android:name=".Admin.AdminAgregarRepartidorActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminEditarRepartidorActivity"
+            android:name=".Admin.AdminEditarRepartidorActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminEditarProductoActivity"
+            android:name=".Admin.AdminEditarProductoActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminAgregarProductoActivity"
+            android:name=".Admin.AdminAgregarProductoActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

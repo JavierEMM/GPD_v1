@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -62,13 +65,31 @@ public class AdminListaProductosActivity extends AppCompatActivity implements Se
         productosAdapter.setEditar(new ProductosAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(int position) {
-
+                Intent intent = new Intent(AdminListaProductosActivity.this,AdminEditarProductoActivity.class);
+                intent.putExtra("producto",productosAdapter.getListaProductos().get(position));
+                startActivity(intent);
             }
         });
         productosAdapter.setBorrar(new ProductosAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(int position) {
+                Productos productos = productosAdapter.getListaProductos().get(position);
+                firebaseFirestore.collection("productos").document(productos.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(AdminListaProductosActivity.this, "Eliminado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                productosAdapter.getListaProductos().remove(position);
+                productosAdapter.notifyItemRemoved(position);
+            }
+        });
 
+        ((Button) findViewById(R.id.btnAgregarProducto)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminListaProductosActivity.this,AdminAgregarProductoActivity.class);
+                startActivity(intent);
             }
         });
 
