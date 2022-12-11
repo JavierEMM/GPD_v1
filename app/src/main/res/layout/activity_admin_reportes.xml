@@ -37,8 +37,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
-
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/btnDescargaReporte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/rv_items_background"
+                        android:text="Reporte"/>
                     <Button
                         android:id="@+id/btnCerrarSesion"
                         android:layout_width="wrap_content"
