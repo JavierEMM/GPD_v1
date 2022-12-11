@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +43,7 @@ import pe.edu.pucp.gdp.R;
 public class ClienteEditarPerfilActivity extends AppCompatActivity {
 
     Uri uri;
+    int contador=0;
     User user;
     FirebaseFirestore firebaseFirestore =  FirebaseFirestore.getInstance();
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
@@ -56,8 +58,11 @@ public class ClienteEditarPerfilActivity extends AppCompatActivity {
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
                     String path =  MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
+                    contador=1;
                     uri = Uri.parse(path);
                     Glide.with(ClienteEditarPerfilActivity.this).load(bitmap).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
+                }else{
+                    Toast.makeText(ClienteEditarPerfilActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
                 }
             }
     );
@@ -66,6 +71,11 @@ public class ClienteEditarPerfilActivity extends AppCompatActivity {
         super.onResume();
         Intent intent = getIntent();
         user = intent.getSerializableExtra("user") == null ? null : (User) intent.getSerializableExtra("user");
+
+        if(contador == 0){
+            uri = intent.getParcelableExtra("uri") == null ? uri : (Uri) intent.getParcelableExtra("uri");
+        }
+
         if(user != null){
             ImageView imageView = findViewById(R.id.imageEditPerfil);
             EditText editNombres = findViewById(R.id.editNombresPerfil);
@@ -75,7 +85,10 @@ public class ClienteEditarPerfilActivity extends AppCompatActivity {
 
             if(uri == null){
                 Glide.with(ClienteEditarPerfilActivity.this).load(storageReference.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid() +"/photo.jpg")).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
+            }else{
+                Glide.with(ClienteEditarPerfilActivity.this).load(uri).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
             }
+
             editNombres.setText(user.getNombres());
             editNombres.setEnabled(false);
             editApellidos.setText(user.getApellidos());
@@ -108,12 +121,17 @@ public class ClienteEditarPerfilActivity extends AppCompatActivity {
         ((Button) findViewById(R.id.btnMapa)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                contador=0;
                 Intent intent = new Intent(ClienteEditarPerfilActivity.this, ClienteEditarPerfilMapaActivity.class);
                 EditText numero = findViewById(R.id.editTelefonoPerfil);
                 if(!numero.getText().toString().isEmpty()){
                     user.setNumero(numero.getText().toString());
                 }
                 intent.putExtra("user",user);
+                if(uri != null){
+                    Log.d("MENSAJE","SE ENVIA URI");
+                    intent.putExtra("uri",uri);
+                }
                 startActivity(intent);
             }
         });
@@ -170,7 +188,7 @@ public class ClienteEditarPerfilActivity extends AppCompatActivity {
     }
 
     public void navbar(BottomNavigationView bottomNavigationView, Context context){
-        bottomNavigationView.setSelectedItemId(R.id.productos);
+        bottomNavigationView.setSelectedItemId(R.id.perfil);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Intent intent;
             switch (item.getItemId()) {

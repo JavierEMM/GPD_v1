@@ -25,6 +25,13 @@
                 android:layout_margin="20dp"
                 android:textAlignment="center"/>
 
+            <Button
+                android:id="@+id/btnVerHistorialPedidos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/rv_items_background"
+                android:text="VER PEDIDOS"/>
+
             <LinearLayout
                 android:id="@+id/recycleViewProductos"
                 android:layout_width="match_parent"

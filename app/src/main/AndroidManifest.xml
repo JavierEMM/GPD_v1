@@ -151,7 +151,8 @@
         </activity>
         <activity
             android:name=".Cliente.ClienteListaProductosActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Background">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -70,6 +70,14 @@ public class ClientePerfilActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        ((Button) findViewById(R.id.btnVerHistorialPedidos)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ClientePerfilActivity.this,ClienteHistorialActivity.class);
+                startActivity(intent);
+            }
+        });
         ((Button) findViewById(R.id.btnHistorialPerfil)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -15,6 +15,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -68,11 +69,16 @@ public class ClienteEditarPerfilMapaActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 User user =  (User) intent.getSerializableExtra("user") == null ? null:(User) intent.getSerializableExtra("user");
                 if(user!=null){
+                    Uri uri = intent.getParcelableExtra("uri") == null ? null : (Uri) intent.getParcelableExtra("uri");
                     Log.d("MENSAJE","ENTRA AQUÍ PRIMERO");
                     user.setDireccion(selectedAddress);
                     user.setLatitude(String.valueOf(selectedLat));
                     user.setLongitude(String.valueOf(selectedLong));
                     intent = new Intent(ClienteEditarPerfilMapaActivity.this, ClienteEditarPerfilActivity.class);
+                    if(uri != null){
+                        Log.d("MENSAJE","SE VUELVE A ENVIAR EL URI");
+                        intent.putExtra("uri",uri);
+                    }
                     intent.putExtra("user",user);
                     startActivity(intent);
                     finish();
@@ -175,7 +181,7 @@ public class ClienteEditarPerfilMapaActivity extends AppCompatActivity {
         }
     }
     public void navbar(BottomNavigationView bottomNavigationView, Context context){
-        bottomNavigationView.setSelectedItemId(R.id.productos);
+        bottomNavigationView.setSelectedItemId(R.id.perfil);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Intent intent;
             switch (item.getItemId()) {
