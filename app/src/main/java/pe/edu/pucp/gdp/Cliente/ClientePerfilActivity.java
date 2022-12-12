@@ -71,23 +71,13 @@ public class ClientePerfilActivity extends AppCompatActivity {
             }
         });
 
-        ((Button) findViewById(R.id.btnVerHistorialPedidos)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.btnHistorialPerfil)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClientePerfilActivity.this,ClienteHistorialActivity.class);
                 startActivity(intent);
             }
         });
-        ((Button) findViewById(R.id.btnHistorialPerfil)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                Intent intent = new Intent(ClientePerfilActivity.this, ClienteHistorialActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
         ((Button) findViewById(R.id.btnEditarPerfil)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,8 +86,6 @@ public class ClientePerfilActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     public void navbar(BottomNavigationView bottomNavigationView, Context context){
