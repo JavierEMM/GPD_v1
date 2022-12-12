@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ import pe.edu.pucp.gdp.R;
 public class AdminReportesActivity extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore =  FirebaseFirestore.getInstance();
+    String escribir = "";
     ActivityResultLauncher<Intent> activityForResultLauncher = registerForActivityResult(
        new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
@@ -47,11 +49,11 @@ public class AdminReportesActivity extends AppCompatActivity {
                                 Log.d("MENSAJE",documentSnapshot.getId());
                             }
 
+                            escribir="";
                             for (String id : listaIds){
                                 firebaseFirestore.collection("users").document(id).collection("pedidos").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot querySnapshot) {
-                                        String escribir = "";
                                         for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()){
                                             Pedido pedido= documentSnapshot.toObject(Pedido.class);
                                             if(pedido != null){
@@ -59,17 +61,25 @@ public class AdminReportesActivity extends AppCompatActivity {
                                                 escribir +="\nUSUARIO: "+pedido.getUser().getNombres();
                                                 escribir +="\nDIRECCION: "+pedido.getUser().getDireccion();
                                                 escribir +="\nPRECIO: "+pedido.getPrecio()+"\n";
+                                                Log.d("MENSAJE",escribir);
                                             }
                                         }
-                                        try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "w");
-                                             FileWriter fileWriter = new FileWriter(pfd.getFileDescriptor());) {
-                                            fileWriter.write(escribir);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+
                                     }
                                 });
                             }
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "w");
+                                         FileWriter fileWriter = new FileWriter(pfd.getFileDescriptor());) {
+                                        fileWriter.write(escribir);
+                                    }catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },10000);
                         }
                     });
             }

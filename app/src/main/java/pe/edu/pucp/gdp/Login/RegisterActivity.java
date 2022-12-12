@@ -219,9 +219,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     Log.d("MENSAJE","ENTRA AQUÍ 2");
                                     Toast.makeText(RegisterActivity.this, "Se ha enviado un correo de confirmación a su correo", Toast.LENGTH_SHORT).show();
+
                                     User user = new User(nombres.getText().toString().trim(),apellidos.getText().toString().trim(),correo.getText().toString().trim(),numero.getText().toString().trim(),direccion.getText().toString().trim(),"ROL_CLIENTE");
+
                                     user.setLatitude(latitude);
                                     user.setLongitude(longitude);
+
                                     firebaseFirestore.collection("users").document(authResult.getUser().getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
