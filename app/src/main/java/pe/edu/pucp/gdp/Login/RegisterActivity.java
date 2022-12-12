@@ -119,9 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
             EditText correo = findViewById(R.id.edtCorreo);
             direccion = findViewById(R.id.edtDireccion);
             User user = intent.getSerializableExtra("user") == null ? null : (User) intent.getSerializableExtra("user");
-            latitude = intent.getStringExtra("latitude") == null ? null : intent.getStringExtra("latitude");
-            longitude = intent.getStringExtra("longitude") == null ? null : intent.getStringExtra("longitude");
             if(user != null){
+                latitude = user.getLatitude();
+                longitude = user.getLongitude();
                 Log.d("MENSAJE","ENTRA AQUÍ");
                 nombres.setText(user.getNombres());
                 apellidos.setText(user.getApellidos());
